@@ -88,7 +88,7 @@ int in_visited(struct linked_list * visited, struct game_state state) {
           return 0; //false
         }
         else {
-          int state_val = serialize(state);
+          size_t state_val = serialize(state);
           struct list_node * currnode = visited -> head;
           if(currnode->value == state_val) {
             return 1; //true
