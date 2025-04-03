@@ -3,15 +3,11 @@
 #include <stdlib.h>
 
 void enqueue(struct queue *q, struct game_state state) {
-    struct linked_list list = q -> data;
-    struct linked_list * listptr = &list;
-    insert_at_head(listptr, serialize(state));
+    insert_at_head(&q->data, serialize(state));
 }
 
 struct game_state dequeue(struct queue *q) { 
-    struct linked_list list = q -> data;
-    struct linked_list * listptr = &list;
-    struct game_state new_state = deserialize(remove_from_tail(listptr));
+    struct game_state new_state = deserialize(remove_from_tail(&q->data));
     return new_state;
 }
 
@@ -28,23 +24,25 @@ int number_of_moves(struct game_state start) {
     //struct list_node * node = new_node(serialize(start));
     struct linked_list list = {.head = node};
     struct queue q = {.data = list};
-    struct queue * qptr = &q;
     while(q.data.head != NULL) {
         struct game_state curr_state;
-        struct game_state * curr_state_ptr = &curr_state;
-        curr_state = dequeue(qptr);
+        curr_state = dequeue(&q);
         if(serialize(solved) == serialize(curr_state)) {
             return curr_state.num_steps;
         }
         else {
-            move_up(curr_state_ptr);
-            enqueue(qptr, curr_state);
-            move_down(curr_state_ptr);
-            enqueue(qptr, curr_state);
-            move_left(curr_state_ptr);
-            enqueue(qptr, curr_state);
-            move_right(curr_state_ptr);
-            enqueue(qptr, curr_state);
+            struct game_state new_state = curr_state;
+            move_up(&new_state);
+            enqueue(&q, new_state);
+            new_state = curr_state;
+            move_down(&new_state);
+            enqueue(&q, new_state);
+            new_state = curr_state;
+            move_left(&new_state);
+            enqueue(&q, new_state);
+            new_state = curr_state;
+            move_right(&new_state);
+            enqueue(&q, new_state);
         }
     }
     return -1;
