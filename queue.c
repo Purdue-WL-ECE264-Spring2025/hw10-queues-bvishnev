@@ -27,6 +27,7 @@ int number_of_moves(struct game_state start) {
 
         if(isSolved(curr_state)) {
             free_list(q.data);
+            free_list(visited);
             return curr_state.num_steps;
         }
         else {
@@ -56,6 +57,7 @@ int number_of_moves(struct game_state start) {
             }
         }
     }
+    free_list(visited);
     free_list(q.data);
     return -1;
 }
@@ -102,20 +104,3 @@ int in_visited(struct linked_list * visited, struct game_state state) {
           return 0; //false
         }
 }
-
-
-
-
-
-/*
-    struct list_node * node = malloc(sizeof(struct list_node));
-    if(node == NULL) {
-      return -1;
-    }
-    node -> value = serialize(start);
-    node -> next = NULL;
-    //below not working for some reason, so copied internals above
-    //struct list_node * node = new_node(serialize(start));
-    struct linked_list list = {.head = node};
-    struct queue q = {.data = list}; 
-    */
