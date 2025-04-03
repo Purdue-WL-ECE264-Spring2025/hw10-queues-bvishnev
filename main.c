@@ -34,6 +34,7 @@ int main(int argc, char **argv) {
   fclose(fp);
 
   int output = number_of_moves(start);
+  printf("Expected: %d, Output: %d\n", expected, output);
   if (output != expected) {
     fprintf(stderr, "Expected %d moves, got %d\n", expected, output);
     exit(3);

@@ -96,3 +96,5 @@ void dump_list(FILE *fp, struct linked_list list) {
   }
   fprintf(fp, "]\n");
 }
+
+
